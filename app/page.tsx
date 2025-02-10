@@ -4,12 +4,13 @@ import { HomeProps } from '@/types';
 import { fetchCars } from '@/utlis';
 
 export default async function Home({ searchParams }: HomeProps) {
+  const resolvedSearchParams = await searchParams;
   const allCars = await fetchCars({
-    manufacturer: searchParams.manufacturer || "",
-    year: searchParams.year || 2022,
-    fuel: searchParams.fuel || "",
-    limit: searchParams.limit || 10,
-    model: searchParams.model || "",
+    manufacturer: resolvedSearchParams.manufacturer || "",
+    year: resolvedSearchParams.year || 2022,
+    fuel: resolvedSearchParams.fuel || "",
+    limit: resolvedSearchParams.limit || 10,
+    model: resolvedSearchParams.model || "",
   });
 
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
@@ -42,8 +43,8 @@ export default async function Home({ searchParams }: HomeProps) {
             </div>
 
             <ShowMore
-              pageNumber={(searchParams.limit || 10) / 10}
-              isNext={(searchParams.limit || 10) > allCars.length}
+              pageNumber={(resolvedSearchParams.limit || 10) / 10}
+              isNext={(resolvedSearchParams.limit || 10) > allCars.length}
             />
           </section>
         ) : (
